@@ -1,0 +1,67 @@
+// Run in LinqPad
+   
+
+    static void Main(string[] args) {
+        //TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        int n = Convert.ToInt32(Console.ReadLine());
+
+        int[] a = Array.ConvertAll(Console.ReadLine().Split(' '), aTemp => Convert.ToInt32(aTemp))
+        ;
+        int result = minimumDistancesOld(a);		
+		result.Dump();
+        //textWriter.WriteLine(result);
+
+        //textWriter.Flush();
+        //textWriter.Close();
+    }
+	
+	public static int minimumDistances(int[] a) {
+		
+		int minDistance = 100000;
+		int distance = 100000;
+		
+		Dictionary<int, int> dict = new Dictionary<int,int>();
+		
+		for (int i = 0; i < a.Length; ++i){
+			
+			if(!dict.ContainsKey(a[i])){
+				dict.Add(a[i], i);
+			}
+			else 
+			{
+				distance = i - dict[a[i]];
+				if (distance < minDistance)
+				{
+					minDistance = distance;
+				}
+				else 
+				{
+					dict[a[i]] = i;
+				}
+			}
+		}
+		
+		return minDistance == 100000 ? -1 : minDistance;
+    }		
+		
+	
+	public static int minimumDistancesOld(int[] a) {
+		
+		int minDistance = 100000;
+		int distance = 100000;
+		
+		for (int i = 1; i < a.Length; ++i){
+			for(int j =0; j<i; ++j){
+				if (a[i] == a[j])
+				{
+					distance = i - j;
+					if (distance < minDistance){
+						minDistance = distance;
+					}
+				}
+			}
+		}
+		
+		return minDistance == 100000 ? -1 : minDistance;
+    }
